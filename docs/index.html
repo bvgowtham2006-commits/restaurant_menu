@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spice Routes - Premium Indian Dining</title>
+    <meta name="description" content="Explore the finest Indian cuisine. Order from our wide selection of starters, main course, mandi, desserts and more.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/string-similarity/4.0.2/string-similarity.min.js"></script>
+</head>
+<body>
+
+    <!-- ============ SCREEN 1: Entry ============ -->
+    <div id="entry-screen" class="flex-center active">
+        <div class="entry-card">
+            <h1 class="brand-title">🍛 Spice Routes</h1>
+            <p class="subtitle">Experience the finest Indian Cuisine</p>
+
+            <form id="entry-form" style="margin-top: 1.5rem;">
+                <div class="input-group">
+                    <label for="userName">Your Name</label>
+                    <input type="text" id="userName" required autocomplete="name" placeholder="e.g. Rahul Sharma">
+                </div>
+                <div class="input-group">
+                    <label for="userMobile">Mobile Number</label>
+                    <input type="tel" id="userMobile" required autocomplete="tel" placeholder="Enter mobile number">
+                </div>
+                <button type="submit" id="enter-btn" class="btn primary-btn btn-glow">View Our Menu →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============ SCREEN 2: Menu ============ -->
+    <div id="menu-screen" class="hidden">
+
+        <!-- Sticky Header -->
+        <header class="glass-header">
+            <div class="header-content">
+                <h2>🍛 Spice Routes</h2>
+                <span class="user-info" id="welcome-name"></span>
+            </div>
+
+            <!-- Search & Filters (visible only in dish-list view) -->
+            <div id="toolbar-row" class="toolbar hidden">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="🔍 Search dishes (e.g. Biryani, Paneer)...">
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="veg">🟢 Veg</button>
+                    <button class="filter-btn" data-filter="non-veg">🔴 Non-Veg</button>
+                </div>
+            </div>
+
+            <!-- Category tabs (visible in dish-list view) -->
+            <nav id="category-nav-row" class="category-nav hidden" style="margin-top: 0.5rem;">
+                <button class="cat-btn" data-cat="Starters">Starters</button>
+                <button class="cat-btn" data-cat="Main Course">Main Course</button>
+                <button class="cat-btn" data-cat="Mandi">Mandi</button>
+                <button class="cat-btn" data-cat="Desserts">Desserts</button>
+                <button class="cat-btn" data-cat="Soft Drinks">Soft Drinks</button>
+            </nav>
+        </header>
+
+        <!-- VIEW A: Category Picker Grid -->
+        <div id="category-picker">
+            <h2>What are you craving?</h2>
+            <p>Choose a section to explore our menu</p>
+
+            <div class="category-grid">
+                <div class="category-card" data-cat="Starters">
+                    <img src="https://images.unsplash.com/photo-1599487405270-b072415cb114?auto=format&fit=crop&w=600&q=80" alt="Starters">
+                    <div class="category-card-overlay">
+                        <button class="arrow-btn">→</button>
+                        <h3>Starters</h3>
+                        <span>15 dishes · Veg & Non-Veg</span>
+                    </div>
+                </div>
+                <div class="category-card" data-cat="Main Course">
+                    <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc0?auto=format&fit=crop&w=600&q=80" alt="Main Course">
+                    <div class="category-card-overlay">
+                        <button class="arrow-btn">→</button>
+                        <h3>Main Course</h3>
+                        <span>15 dishes · Veg & Non-Veg</span>
+                    </div>
+                </div>
+                <div class="category-card" data-cat="Mandi">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" alt="Mandi">
+                    <div class="category-card-overlay">
+                        <button class="arrow-btn">→</button>
+                        <h3>Mandi</h3>
+                        <span>15 dishes · Arabian classics</span>
+                    </div>
+                </div>
+                <div class="category-card" data-cat="Desserts">
+                    <img src="https://images.unsplash.com/photo-1582576163090-09d3b6f8a969?auto=format&fit=crop&w=600&q=80" alt="Desserts">
+                    <div class="category-card-overlay">
+                        <button class="arrow-btn">→</button>
+                        <h3>Desserts</h3>
+                        <span>15 dishes · Sweet endings</span>
+                    </div>
+                </div>
+                <div class="category-card" data-cat="Soft Drinks">
+                    <img src="https://images.unsplash.com/photo-1628557044797-f21a177c37ec?auto=format&fit=crop&w=600&q=80" alt="Soft Drinks">
+                    <div class="category-card-overlay">
+                        <button class="arrow-btn">→</button>
+                        <h3>Soft Drinks</h3>
+                        <span>15 drinks · Refreshing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW B: Dish List for a Category -->
+        <div id="dish-list-view" class="hidden">
+            <div class="dish-list-header">
+                <button class="back-btn" id="back-to-categories">← Categories</button>
+                <h3 id="dish-list-title">Starters</h3>
+            </div>
+            <div id="dish-grid" class="dish-grid"></div>
+        </div>
+
+    </div>
+
+    <!-- ============ Sticky Cart Bar ============ -->
+    <div class="cart-bar" id="cart-bar">
+        <div class="cart-summary">
+            <span id="cart-total-items">0 Items</span>
+            <span id="cart-total-price">₹0</span>
+        </div>
+        <button id="view-cart-btn">View Cart & Place Order</button>
+    </div>
+
+    <!-- ============ Checkout Modal ============ -->
+    <div id="checkout-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" id="close-checkout">&times;</span>
+            <h2>Your Order</h2>
+            <div id="cart-items-list" class="cart-items-list"></div>
+            <div class="checkout-summary">
+                <p>Estimated Time: <strong id="est-time">30 mins</strong></p>
+                <h3>Total: <span id="final-price">₹0</span></h3>
+            </div>
+            <button id="place-order-btn" class="btn primary-btn btn-glow">Confirm & Place Order</button>
+        </div>
+    </div>
+
+    <!-- ============ Success Screen ============ -->
+    <div id="success-screen" class="modal hidden">
+        <div class="success-card flex-center" style="min-height: unset;">
+            <p class="text-success">✅ Order Placed!</p>
+            <p style="margin-bottom:0.5rem; color:#555;">Your Order ID</p>
+            <h2 id="success-order-id" style="font-size:1.6rem; color:#1a1a1a;"></h2>
+            <p style="color:#888; margin-top: 0.5rem;">Estimated time: <strong style="color:#1a1a1a;">30–45 minutes</strong></p>
+            <button id="back-to-menu" class="btn secondary-btn" style="margin-top:1.5rem; width:100%;">Back to Menu</button>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
